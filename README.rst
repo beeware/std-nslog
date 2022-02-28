@@ -1,9 +1,29 @@
-.. image:: http://pybee.org/static/images/defaultlogo.png
+.. image:: http://beeware.org/static/images/defaultlogo.png
     :width: 72px
     :target: https://beeware.org/
 
 std-nslog
 =========
+
+.. image:: https://img.shields.io/pypi/pyversions/std-nslog.svg
+   :target: https://pypi.python.org/pypi/std-nslog
+   :alt: Python Versions
+
+.. image:: https://img.shields.io/pypi/v/std-nslog.svg
+   :target: https://pypi.python.org/pypi/std-nslog
+   :alt: PyPI Version
+
+.. image:: https://img.shields.io/pypi/status/std-nslog.svg
+   :target: https://pypi.python.org/pypi/std-nslog
+   :alt: Maturity
+
+.. image:: https://img.shields.io/pypi/l/std-nslog.svg
+   :target: https://github.com/beeware/std-nslog/blob/master/LICENSE
+   :alt: BSD License
+
+.. image:: https://img.shields.io/discord/836455665257021440?label=Discord%20Chat&logo=discord&style=plastic
+   :target: https://beeware.org/bee/chat/
+   :alt: Discord server
 
 std-nslog is a shim that redirects stderr/stdout to the Apple System Log (NSLog).
 This can be useful when deploying Python code as a standalone app on macOS or
@@ -12,7 +32,7 @@ iOS.
 Usage
 -----
 
-std-nslog primary exists as a utility for Briefcase deployments. You shouldn't ever need
+std-nslog primary exists as a utility for std-nslog deployments. You shouldn't ever need
 to install it yourself. However, just in case...
 
 To install std-nslog::
@@ -29,7 +49,7 @@ Why no pun?
 -----------
 
 While an obscure joke referencing apples and logs might be amusing, it would make
-no sense when it appeared in a Briefcase requirements file.
+no sense when it appeared in a std-nslog requirements file.
 
 Community
 ---------
