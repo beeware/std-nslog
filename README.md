@@ -30,7 +30,7 @@ redirected to the Apple System Log.
 ## Why no pun?
 
 While an obscure joke referencing apples and logs might be amusing, it
-would make no sense when it appeared in a std-nslog requirements file.
+would make no sense when it appeared in a Briefcase requirements file.
 
 ## Community
 
