@@ -59,9 +59,10 @@ FORMAT = _cfstr('%@')
 
 def nslog(s):
     """Log the given Python :class:`str` to the system log."""
-    # NSLog duplicates output if you pass it ""; however, it will transparently
-    # eat a trailing \n. So, as a safety mechanism, append "\n" to every string.
-    cfstring = _cfstr(s + "\n")
+    # NSLog duplicates output in the system log if you pass it "";
+    # however, it will transparently eat a trailing \r.
+    # So, as a safety mechanism, append "\r" to every string.
+    cfstring = _cfstr(s + "\r")
     Foundation.NSLog(FORMAT, cfstring)
     CoreFoundation.CFRelease(cfstring)
 
