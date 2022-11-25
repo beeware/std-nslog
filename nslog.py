@@ -53,13 +53,24 @@ def _cfstr(s):
     return cfstring
 
 
+# Format string for a single NSobject.
+FORMAT = _cfstr("%@")
+
+
 def nslog(s):
     """Log the given Python :class:`str` to the system log."""
     # NSLog duplicates output in the system log if you pass it "";
     # however, it will transparently eat a trailing \r.
     # So, as a safety mechanism, append "\r" to every string.
     cfstring = _cfstr(s + "\r")
-    Foundation.NSLog(cfstring)
+    # It might appear the FORMAT is redundant here, and that we could just call
+    # NSLog(cfstring); however, passing the user-provided string as an NSString
+    # to a format statement means that "%" characters in the user-provided
+    # string are escaped. If you log the user-provided string directly, NSLog
+    # will interpret "%s" as content to be filled from the varargs of the
+    # function... but since there aren't any, it will use uninitialized memory,
+    # and hilarity ensues.
+    Foundation.NSLog(FORMAT, cfstring)
     CoreFoundation.CFRelease(cfstring)
 
 
