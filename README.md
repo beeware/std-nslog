@@ -5,7 +5,7 @@
 [![Python Versions](https://img.shields.io/pypi/pyversions/std-nslog.svg)](https://pypi.python.org/pypi/std-nslog)
 [![PyPI Version](https://img.shields.io/pypi/v/std-nslog.svg)](https://pypi.python.org/pypi/std-nslog)
 [![Maturity](https://img.shields.io/pypi/status/std-nslog.svg)](https://pypi.python.org/pypi/std-nslog)
-[![BSD License](https://img.shields.io/pypi/l/std-nslog.svg)](https://github.com/beeware/std-nslog/blob/master/LICENSE)
+[![BSD License](https://img.shields.io/pypi/l/std-nslog.svg)](https://github.com/beeware/std-nslog/blob/main/LICENSE)
 [![Discord server](https://img.shields.io/discord/836455665257021440?label=Discord%20Chat&logo=discord&style=plastic)](https://beeware.org/bee/chat/)
 
 std-nslog is a shim that redirects stderr/stdout to the Apple System Log
