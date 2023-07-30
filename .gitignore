@@ -96,3 +96,6 @@ local/
 
 # runtime data
 runtime/
+
+# IntelliJ Idea family of suites
+.idea
