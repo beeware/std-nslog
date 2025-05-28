@@ -23,6 +23,7 @@ To install std-nslog:
 
 Then, in your code, `import nslog`. This will install the shim. The file
 only needs to be imported once; preferably as early as possible in the
+Python application code.
 
 Once installed, all output written to stdout and stderr will be
 redirected to the Apple System Log.
