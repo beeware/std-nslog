@@ -38,7 +38,7 @@ would make no sense when it appeared in a Briefcase requirements file.
 std-nslog is part of the [BeeWare suite](http://beeware.org). You can talk
 to the community through:
 
-- [@pybeeware on Twitter](https://twitter.com/pybeeware)
+- [@beeware@fosstodon.org on Mastodon](https://fosstodon.org/@beeware)
 - [Discord](https://beeware.org/bee/chat/)
 
 We foster a welcoming and respectful community as described in our [BeeWare
@@ -47,6 +47,5 @@ Community Code of Conduct](http://beeware.org/community/behavior/).
 ## Contributing
 
 If you experience problems with std-nslog, [log them on
-GitHub](https://github.com/beeware/std-nslog/issues). If you want to contribute
-code, please [fork the code](https://github.com/beeware/std-nslog) and [submit a
+GitHub](https://github.com/beeware/std-nslog/issues). If you want to contribute, please [fork the project](https://github.com/beeware/std-nslog) and [submit a
 pull request](https://github.com/beeware/std-nslog/pulls).
