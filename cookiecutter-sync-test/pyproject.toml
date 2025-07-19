@@ -1,0 +1,8 @@
+[project]
+name = "cookiecutter-sync-test"
+version = "0.1.0"
+authors = ["TShDaub jtortle@pm.me"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"

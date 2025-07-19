@@ -1,0 +1,16 @@
+{
+  "template": "https://github.com/beeware/cookiecutter-sync-test",
+  "commit": "955cea8efdadd4346d371412b0a6e2b0b22d140e",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "cookiecutter-sync-test",
+      "project_slug": "cookiecutter-sync-test",
+      "author": "TShDaub",
+      "email": "jtortle@pm.me",
+      "_template": "https://github.com/beeware/cookiecutter-sync-test",
+      "_commit": "955cea8efdadd4346d371412b0a6e2b0b22d140e"
+    }
+  },
+  "directory": null
+}
