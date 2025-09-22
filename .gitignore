@@ -101,4 +101,4 @@ runtime/
 .idea
 
 # Ruff linter cache files
-.ruff_cache 
+.ruff_cache
