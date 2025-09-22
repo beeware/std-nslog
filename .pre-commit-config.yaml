@@ -8,12 +8,6 @@ repos:
       - id: check-docstring-first
       - id: end-of-file-fixer
       - id: trailing-whitespace
-  - repo: https://github.com/PyCQA/isort
-    # For split_on_trailing_comma. Should be in the release after 5.10.1
-    rev: 6.0.1
-    hooks:
-      - id: isort
-        additional_dependencies: [toml]
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.20.0
     hooks:
