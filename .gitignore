@@ -99,3 +99,6 @@ runtime/
 
 # IntelliJ Idea family of suites
 .idea
+
+# Ruff linter cache files
+.ruff_cache

@@ -37,7 +37,9 @@ Foundation = ctypes.CDLL("/System/Library/Frameworks/Foundation.framework/Founda
 CoreFoundation.CFRelease.restype = None
 CoreFoundation.CFRelease.argtypes = [CFTypeRef]
 
-# CFStringRef CFStringCreateWithCharacters(CFAllocatorRef alloc, const UniChar *chars, CFIndex numChars)
+# CFStringRef CFStringCreateWithCharacters(
+#     CFAllocatorRef alloc, const UniChar *chars, CFIndex numChars
+# )
 CoreFoundation.CFStringCreateWithCharacters.restype = CFTypeRef
 CoreFoundation.CFStringCreateWithCharacters.argtypes = [
     CFTypeRef,
