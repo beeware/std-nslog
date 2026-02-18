@@ -1,6 +1,44 @@
 [build-system]
-requires = ["setuptools>=60"]
+requires = ["setuptools==82.0.0"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "std-nslog"
+dynamic = ["version"]
+description = "A shim that redirects stderr/stdout to the Apple System Log (NSLog)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+authors = [
+    {name = "Russell Keith-Magee", email = "russell@keith-magee.com"},
+]
+keywords = ["apple", "nslog", "system log", "macos", "ios"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Operating System :: iOS",
+    "Operating System :: MacOS :: MacOS X",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development",
+    "Topic :: Utilities",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "nslog.__version__"}
+
+[project.urls]
+Homepage = "https://github.com/beeware/std-nslog"
+Funding = "https://beeware.org/contributing/membership/"
+Tracker = "https://github.com/beeware/std-nslog/issues"
+Source = "https://github.com/beeware/std-nslog"
 
 [tool.ruff.lint]
 # In addition to the default rules, these additional rules will be used:
