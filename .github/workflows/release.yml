@@ -20,7 +20,7 @@ jobs:
 
   release:
     name: Create Release
-    needs: [ci, docs]
+    needs: [ci]
     # This has to be run on macOS, because rubicon tries to load the Foundation library
     runs-on: macOS-latest
     permissions:
