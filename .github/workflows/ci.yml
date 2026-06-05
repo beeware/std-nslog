@@ -70,20 +70,21 @@ jobs:
           path: ./dist/*.tar.gz
           if-no-files-found: error
 
-  smoke-test:
-    name: Smoke test (Python ${{ matrix.python-version }})
+  test:
+    name: Test (${{ matrix.python-version }})
     needs: build-wheels
     runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["py310", "py311", "py312", "py313", "py314", "py315"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14", "3.15"]
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: ${{ matrix.python-version }}
+          allow-prereleases: true
 
       - uses: actions/download-artifact@v4
         with:
@@ -95,4 +96,4 @@ jobs:
           python -m pip install --group tox-uv
 
       - name: Run smoke test
-        run: tox -e ${{ matrix.python-version }}
+        run: tox -e py
