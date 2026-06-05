@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - "v*"
 
 # Cancel active CI runs for a PR before starting another run
 concurrency:
@@ -23,3 +25,86 @@ jobs:
     uses: beeware/.github/.github/workflows/pre-commit-run.yml@main
     with:
       pre-commit-source: "pre-commit"
+
+  build-wheels:
+    # The native ``_oslog_shim`` extension calls Apple's os_log() macro, so
+    # wheels can only be produced on Apple-platform runners. cibuildwheel
+    # cross-builds the iOS slices from the same macOS host.
+    name: Build wheels (${{ matrix.platform }})
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [macos, ios]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.22.0
+        env:
+          # cibuildwheel's iOS support is opt-in via CIBW_PLATFORM.
+          CIBW_PLATFORM: ${{ matrix.platform }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.platform }}
+          path: ./wheelhouse/*.whl
+          if-no-files-found: error
+
+  build-sdist:
+    name: Build sdist
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Build sdist
+        run: |
+          python -m pip install --upgrade build
+          python -m build --sdist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdist
+          path: ./dist/*.tar.gz
+          if-no-files-found: error
+
+  smoke-test:
+    # A minimal sanity check that the macOS wheel imports and that
+    # ``import nslog`` actually rewires stdout/stderr without raising.
+    name: Smoke test (macOS)
+    needs: build-wheels
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: wheels-macos
+          path: dist
+
+      - name: Install and smoke-test the wheel
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --find-links=dist --no-index std-nslog
+          python -c "
+          import sys, io, nslog
+          assert isinstance(sys.stdout, nslog.NSLogWriter)
+          assert isinstance(sys.stderr, nslog.NSLogWriter)
+          print('hello from std-nslog smoke test')
+          print('this is stderr', file=sys.stderr)
+          # nslog() should accept all log levels.
+          nslog.nslog('explicit info', level=nslog.OS_LOG_TYPE_INFO)
+          nslog.nslog('explicit error', level=nslog.OS_LOG_TYPE_ERROR)
+          "

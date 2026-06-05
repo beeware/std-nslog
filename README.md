@@ -8,44 +8,35 @@
 [![BSD License](https://img.shields.io/pypi/l/std-nslog.svg)](https://github.com/beeware/std-nslog/blob/main/LICENSE)
 [![Discord server](https://img.shields.io/discord/836455665257021440?label=Discord%20Chat&logo=discord&style=plastic)](https://beeware.org/bee/chat/)
 
-std-nslog is a shim that redirects stderr/stdout to the Apple System Log
-(NSLog). This can be useful when deploying Python code as a standalone
-app on macOS or iOS.
+std-nslog is a shim that redirects stderr/stdout to the Apple unified logging system (`os_log`, the modern replacement for `NSLog`). This can be useful when deploying Python code as a standalone app on macOS or iOS, where stdout/stderr aren't easily visible for end users.
 
 ## Usage
 
-std-nslog primary exists as a utility for briefcase deployments. You
-shouldn't ever need to install it yourself. However, just in case...
+std-nslog will generally only be needed in the context of a bundled macOS or iOS application. You shouldn't ever need to install it yourself into a local virtual environment. However, just in case...
 
 To install std-nslog:
 
     $ pip install std-nslog
 
-Then, in your code, `import nslog`. This will install the shim. The file
-only needs to be imported once; preferably as early as possible in the
-Python application code.
+Then, in your code, `import nslog`. This will install the shim. The file only needs to be imported once; preferably as early as possible in the Python application code.
 
-Once installed, all output written to stdout and stderr will be
-redirected to the Apple System Log.
+Once installed, all output written to stdout and stderr will be redirected to the unified logging system; stdout is logged at `OS_LOG_TYPE_DEFAULT`, and stderr at `OS_LOG_TYPE_ERROR`, so the two streams can be filtered separately in Console.app or `log stream`.
+
+To associate the log entries with a specific subsystem and category (useful for filtering with `log stream --predicate 'subsystem == "..."'`), set the `STD_NSLOG_SUBSYSTEM` and `STD_NSLOG_CATEGORY` environment variables before importing `nslog`. If unset, the default system log is used.
 
 ## Why no pun?
 
-While an obscure joke referencing apples and logs might be amusing, it
-would make no sense when it appeared in a Briefcase requirements file.
+While an obscure joke referencing apples and logs might be amusing, it would make no sense when it appeared in a Briefcase requirements file.
 
 ## Community
 
-std-nslog is part of the [BeeWare suite](http://beeware.org). You can talk
-to the community through:
+std-nslog is part of the [BeeWare suite](http://beeware.org). You can talk to the community through:
 
 - [@beeware@fosstodon.org on Mastodon](https://fosstodon.org/@beeware)
 - [Discord](https://beeware.org/bee/chat/)
 
-We foster a welcoming and respectful community as described in our [BeeWare
-Community Code of Conduct](http://beeware.org/community/behavior/).
+We foster a welcoming and respectful community as described in our [BeeWare Community Code of Conduct](http://beeware.org/community/code-of-conduct/).
 
 ## Contributing
 
-If you experience problems with std-nslog, [log them on
-GitHub](https://github.com/beeware/std-nslog/issues). If you want to contribute, please [fork the project](https://github.com/beeware/std-nslog) and [submit a
-pull request](https://github.com/beeware/std-nslog/pulls).
+If you experience problems with std-nslog, [log them on GitHub](https://github.com/beeware/std-nslog/issues). If you want to contribute, please [fork the project](https://github.com/beeware/std-nslog) and [submit a pull request](https://github.com/beeware/std-nslog/pulls).

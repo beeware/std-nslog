@@ -102,3 +102,5 @@ runtime/
 
 # Ruff linter cache files
 .ruff_cache
+
+wheelhouse/

@@ -1,7 +1,0 @@
-include CHANGELOG.md
-include CONTRIBUTING.md
-include README.md
-include AUTHORS
-include LICENSE
-include nslog.py
-include .pre-commit-config.yaml
