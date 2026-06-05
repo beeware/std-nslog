@@ -27,6 +27,8 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
     "Programming Language :: Python :: 3 :: Only",
     "Topic :: Software Development",
     "Topic :: Utilities",
@@ -37,6 +39,32 @@ Homepage = "https://github.com/beeware/std-nslog"
 Funding = "https://beeware.org/contributing/membership/"
 Tracker = "https://github.com/beeware/std-nslog/issues"
 Source = "https://github.com/beeware/std-nslog"
+
+[dependency-groups]
+# Extras used by developers *of* briefcase are pinned to specific versions to
+# ensure environment consistency.
+pre-commit = [
+    "pre-commit == 4.6.0",
+]
+
+setuptools-scm = [
+    "setuptools_scm == 10.0.5",
+]
+
+tox-uv = [
+    "tox-uv == 1.35.2",
+]
+
+dev = [
+    {include-group = "pre-commit"},
+    {include-group = "setuptools-scm"},
+    {include-group = "tox-uv"},
+]
+
+test = [
+    "pytest == 9.0.3",
+    {include-group = "setuptools-scm"},
+]
 
 [tool.cibuildwheel]
 build-frontend = "build"

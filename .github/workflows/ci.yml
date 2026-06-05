@@ -35,27 +35,29 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.13"
+          python-version: "3.x"
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v3.4.1
+        with:
+          output-dir: dist
 
       - uses: actions/upload-artifact@v4
         with:
-          name: wheels-${{ matrix.platform }}
-          path: ./wheelhouse/*.whl
+          name: wheels
+          path: ./dist/*.whl
           if-no-files-found: error
 
   build-sdist:
     needs: pre-commit
     name: Build sdist
-    runs-on: macos-14
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.13"
+          python-version: "3.x"
 
       - name: Build sdist
         run: |
@@ -69,32 +71,28 @@ jobs:
           if-no-files-found: error
 
   smoke-test:
-    name: Smoke test
+    name: Smoke test (Python ${{ matrix.python-version }})
     needs: build-wheels
     runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["py310", "py311", "py312", "py313", "py314", "py315"]
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.13"
+          python-version: "3.x"
 
       - uses: actions/download-artifact@v4
         with:
-          name: wheels-macos
-          path: dist
+          name: wheels
+          path: wheelhouse
 
-      - name: Install and smoke-test the wheel
+      - name: Install tox
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install --find-links=dist --no-index --pre std-nslog
-          python -c "
-          import sys, io, nslog
-          assert isinstance(sys.stdout, nslog.NSLogWriter)
-          assert isinstance(sys.stderr, nslog.NSLogWriter)
-          print('hello from std-nslog smoke test')
-          print('this is stderr', file=sys.stderr)
-          # nslog() should accept all log levels.
-          nslog.nslog('explicit info', level=nslog.OS_LOG_TYPE_INFO)
-          nslog.nslog('explicit error', level=nslog.OS_LOG_TYPE_ERROR)
-          "
+          python -m pip install --group tox
+
+      - name: Run smoke test
+        run: tox -e py
