@@ -1,11 +1,14 @@
 [build-system]
-requires = ["setuptools==82.0.1"]
+requires = [
+    "setuptools==82.0.0",
+    "setuptools_scm==9.2.2",
+]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "std-nslog"
 dynamic = ["version"]
-description = "A shim that redirects stderr/stdout to the Apple System Log (NSLog)"
+description = "A shim that redirects stderr/stdout to the Apple unified logging system (os_log)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "BSD-3-Clause"
@@ -13,7 +16,7 @@ license-files = ["LICENSE"]
 authors = [
     {name = "Russell Keith-Magee", email = "russell@keith-magee.com"},
 ]
-keywords = ["apple", "nslog", "system log", "macos", "ios"]
+keywords = ["apple", "os_log", "nslog", "system log", "macos", "ios"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -31,14 +34,68 @@ classifiers = [
     "Topic :: Utilities",
 ]
 
-[tool.setuptools.dynamic]
-version = {attr = "nslog.__version__"}
-
 [project.urls]
 Homepage = "https://github.com/beeware/std-nslog"
 Funding = "https://beeware.org/contributing/membership/"
 Tracker = "https://github.com/beeware/std-nslog/issues"
 Source = "https://github.com/beeware/std-nslog"
+
+[dependency-groups]
+# Extras used by developers *of* briefcase are pinned to specific versions to
+# ensure environment consistency.
+pre-commit = [
+    "pre-commit == 4.6.0",
+]
+
+setuptools-scm = [
+    "setuptools_scm == 10.0.5",
+]
+
+tox-uv = [
+    "tox-uv == 1.35.2",
+]
+
+dev = [
+    {include-group = "pre-commit"},
+    {include-group = "setuptools-scm"},
+    {include-group = "tox-uv"},
+]
+
+test = [
+    "pytest == 9.0.3",
+    {include-group = "setuptools-scm"},
+]
+
+[tool.cibuildwheel]
+build-frontend = "build"
+archs = "all"
+# Build a single abi3 wheel against the Python 3.10 stable ABI; the resulting
+# wheel is compatible with CPython 3.10, 3.11, 3.12 and 3.13.
+build = ["cp310-*"]
+
+[tool.distutils.bdist_wheel]
+# Tag the produced wheel as cp310-abi3-... rather than cp310-cp310-...
+py-limited-api = "cp310"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+py-modules = ["nslog"]
+
+[[tool.setuptools.ext-modules]]
+name = "_oslog_shim"
+sources = ["src/_oslog_shim.c"]
+py-limited-api = true
+extra-compile-args = [
+    # Warn about everything by default
+    "-Wall",
+    # Don't complain about the standard `self` argument on METH_VARARGS functions.
+    "-Wno-unused-parameter",
+    # Build against the Python 3.10 stable ABI (limited API).
+    "-DPy_LIMITED_API=0x030A0000"
+]
+
+[tool.setuptools_scm]
+# To enable SCM versioning, we need an empty tool configuration for setuptools_scm
 
 [tool.ruff.lint]
 # In addition to the default rules, these additional rules will be used:
@@ -57,3 +114,33 @@ extend-select = [
     # use improvement.
     # "SIM",    # flake8-simplify
 ]
+
+[tool.rumdl]
+flavor = "mkdocs"
+include = ["**/*.md"]
+exclude = [
+    "comment.md",
+    "CODE_OF_CONDUCT.md",
+]
+respect-gitignore = true
+
+# Disable rules:
+# MD014: Forces commands in codeblocks to show output
+# MD033: No inline HTML
+disable = [
+    "MD014",
+    "MD033",
+]
+
+[tool.rumdl.per-file-ignores]
+
+[tool.rumdl.MD013]  # Line length
+line_length = 999999
+reflow = true
+reflow_mode = "normalize"
+
+[tool.rumdl.MD026]  # Remove punctuation at the end of headings
+punctuation = ",;:"
+
+[tool.rumdl.MD061]  # Fail on certain strings.
+terms = ["TODO"]

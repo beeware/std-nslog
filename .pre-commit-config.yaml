@@ -12,5 +12,13 @@ repos:
     rev: v0.15.13
     hooks:
       - id: ruff-check
-        args: [ --fix ]
+        args: [--fix]
       - id: ruff-format
+  - repo: https://github.com/rvben/rumdl-pre-commit
+    rev: v0.1.87
+    hooks:
+      - id: rumdl
+  - repo: https://github.com/zizmorcore/zizmor-pre-commit
+    rev: v1.25.2
+    hooks:
+      - id: zizmor
