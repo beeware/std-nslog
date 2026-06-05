@@ -6,6 +6,12 @@ on:
       - main
     tags:
       - "v*"
+  workflow_call:
+    inputs:
+      attest-package:
+        description: "Create GitHub provenance attestation for the package."
+        default: "false"
+        type: string
 
 # Cancel active CI runs for a PR before starting another run
 concurrency:
@@ -44,7 +50,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: wheels
+          name: dist-wheels
           path: ./dist/*.whl
           if-no-files-found: error
 
@@ -66,7 +72,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: sdist
+          name: dist-sdist
           path: ./dist/*.tar.gz
           if-no-files-found: error
 
@@ -88,7 +94,7 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: wheels
+          name: dist-wheels
           path: wheelhouse
 
       - name: Install tox

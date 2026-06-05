@@ -1,0 +1,60 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  ci:
+    name: CI
+    uses: ./.github/workflows/ci.yml
+    with:
+      attest-package: "true"
+
+  release:
+    name: Create Release
+    needs: [ci, docs]
+    # This has to be run on macOS, because rubicon tries to load the Foundation library
+    runs-on: macOS-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Set build variables
+        run: |
+          echo "VERSION=${GITHUB_REF_NAME#v}" | tee -a $GITHUB_ENV
+
+      - name: Get packages
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: dist-*
+          merge-multiple: true
+          path: dist
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.21.0
+        with:
+          name: ${{ env.VERSION }}
+          draft: true
+          artifacts: dist/*
+          artifactErrorsFailBuild: true
+
+  test-publish:
+    name: Publish test package
+    needs: [ci, docs, release]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      # This permission is required for trusted publishing.
+      id-token: write
+    steps:
+      - name: Get packages
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: ${{ needs.ci.outputs.artifact-name }}
+          path: dist
+
+      - name: Publish release to Test PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/

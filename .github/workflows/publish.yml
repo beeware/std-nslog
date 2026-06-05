@@ -1,0 +1,25 @@
+name: Upload Python Package
+
+on:
+  release:
+    types: published
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      # This permission is required for trusted publishing.
+      id-token: write
+    steps:
+      - uses: dsaltares/fetch-gh-release-asset@1.1.2
+        with:
+          version: tags/${{ github.event.release.tag_name }}
+          # This next line is *not* a bash filename expansion - it's a regex.
+          # We need to match all files that start with rubicon-objc or
+          # rubicon_objc, but not the "Source code" zip and tarball.
+          file: std-nslog.*
+          regex: true
+          target: dist/
+
+      - name: Publish release to production PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
