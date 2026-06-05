@@ -40,6 +40,8 @@ Source = "https://github.com/beeware/std-nslog"
 
 [tool.cibuildwheel]
 build-frontend = "build"
+archs = "all"
+build = ["cp310-*", "cp311-*", "cp312-*", "cp313-*"]
 
 [tool.setuptools]
 package-dir = {"" = "src"}
