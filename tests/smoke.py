@@ -10,9 +10,7 @@ import sys
 import nslog
 
 
-def main() -> None:
-    tag = sys.argv[1]
-
+def main(tag) -> None:
     # Importing nslog should have replaced both standard streams with
     # NSLogWriter instances; if it didn't, nothing else here is meaningful.
     assert isinstance(sys.stdout, nslog.NSLogWriter), (
@@ -37,4 +35,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1])

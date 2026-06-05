@@ -20,9 +20,7 @@ def test_system_log():
     # Assert that the smoke test ran without error.
     assert result.returncode == 0
 
-    # Nothing the script `print()`ed should have reached the inherited
-    # stdio: NSLogWriter routes every byte to os_log instead. Anything
-    # showing up here would mean the redirection failed.
+    # Nothing the script `print()`ed should have reached stdio
     assert result.stdout == "", (
         f"unexpected bytes on subprocess stdout: {result.stdout!r}"
     )
@@ -30,9 +28,8 @@ def test_system_log():
         f"unexpected bytes on subprocess stderr: {result.stderr!r}"
     )
 
-    # Give the unified logging subsystem a moment to commit the writes
-    # before querying. Two seconds matches the existing CI margin and is
-    # well within the `log show` window we request below.
+    # Give the unified logging subsystem a moment to commit the writes,
+    # then extract the last 10s of system logs.
     time.sleep(2)
 
     log = subprocess.check_output(

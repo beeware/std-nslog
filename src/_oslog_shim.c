@@ -8,11 +8,7 @@
  * This module exists so that the macro is expanded by the C compiler when the
  * wheel is built, and the resulting object code is invoked from Python.
  *
- * The module exposes three functions to Python:
- *
- *   init(subsystem: bytes | None, category: bytes | None) -> None
- *       (Re)create the os_log_t handle used for subsequent emit() calls.
- *       Passing None (or an empty bytes) for subsystem uses OS_LOG_DEFAULT.
+ * The module exposes two functions to Python:
  *
  *   emit(level: int, message: bytes) -> None
  *       Emit `message` (a UTF-8 byte string) at the given os_log_type_t
