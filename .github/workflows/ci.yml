@@ -36,6 +36,12 @@ jobs:
     needs: pre-commit
     name: Build wheels
     runs-on: macos-latest
+    permissions:
+      # Required by attest-build-provenance to mint a Sigstore signing
+      # certificate via OIDC; only granted to this job, not the workflow.
+      id-token: write
+      attestations: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -48,6 +54,12 @@ jobs:
         with:
           output-dir: dist
 
+      - name: Generate build-provenance attestation for wheels
+        if: inputs.attest-package == 'true'
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: "dist/*.whl"
+
       - uses: actions/upload-artifact@v4
         with:
           name: dist-wheels
@@ -58,6 +70,10 @@ jobs:
     needs: pre-commit
     name: Build sdist
     runs-on: macos-latest
+    permissions:
+      id-token: write
+      attestations: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -69,6 +85,12 @@ jobs:
         run: |
           python -m pip install --upgrade build
           python -m build --sdist
+
+      - name: Generate build-provenance attestation for sdist
+        if: inputs.attest-package == 'true'
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: "dist/*.tar.gz"
 
       - uses: actions/upload-artifact@v4
         with:
