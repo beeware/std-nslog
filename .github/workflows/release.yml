@@ -46,7 +46,7 @@ jobs:
 
   test-publish:
     name: Publish test package
-    needs: [ci, docs, release]
+    needs: [ci, release]
     runs-on: ubuntu-latest
     permissions:
       contents: write
