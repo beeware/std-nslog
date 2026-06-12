@@ -29,8 +29,10 @@ def nslog(s, level=OS_LOG_TYPE_DEFAULT):
         Defaults to `OS_LOG_TYPE_DEFAULT`.
     """
     # os_log accepts UTF-8 C strings; embedded NULs would truncate the
-    # visible message, so strip them defensively.
-    _oslog_shim.emit(level, s.replace("\x00", "").encode("utf-8"))
+    # visible message, so replace them with Java's "Modified UTF-8"
+    # encoding of U+0000 (this matches what CPython does with the
+    # Apple system logger).
+    _oslog_shim.emit(level, s.replace("\x00", "\xc0\x80").encode("utf-8"))
 
 
 class NSLogWriter(io.TextIOBase):

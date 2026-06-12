@@ -44,9 +44,11 @@ def test_system_log():
             "this is stderr",
             "explicit info",
             "explicit error",
+            "string with an À embedded null",
         ]
         if f"{tag} {msg}" not in log
     ]
+
     assert not missing, (
         "Expected message(s) not found in `log show` output: "
         + ", ".join(repr(m) for m in missing)
