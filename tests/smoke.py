@@ -28,6 +28,8 @@ def main(tag) -> None:
     nslog.nslog(f"{tag} explicit info", level=nslog.OS_LOG_TYPE_INFO)
     nslog.nslog(f"{tag} explicit error", level=nslog.OS_LOG_TYPE_ERROR)
 
+    print(f"{tag} string with an \x00 embedded null")
+
     # NSLogWriter buffers partial lines until a newline arrives; flush
     # explicitly so nothing is dropped before the unified-log query runs.
     sys.stdout.flush()

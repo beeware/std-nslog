@@ -4,6 +4,7 @@
 
 * The shim now writes to Apple's unified logging system (`os_log`) instead of the deprecated `NSLog` API. Output written to `stdout` and `stderr` appears in Console.app and `log stream` as before, but is now tagged with the `OS_LOG_TYPE_DEFAULT` and `OS_LOG_TYPE_ERROR` levels respectively, so the two streams can be filtered separately.
 * The `encoding` attribute on the writer is now `"utf-8"` (previously `"utf-16-le"` / `"utf-16-be"`), reflecting the underlying API.
+* Null characters (`\x00`) are now replaced with Java's "Modified UTF-8" encoding (`\xc0\x80`), rather than being silently dropped.
 
 ## 1.0.3 (November 25 2022)
 
