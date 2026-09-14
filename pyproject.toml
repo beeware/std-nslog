@@ -70,11 +70,11 @@ build-frontend = "build"
 archs = "all"
 # Build a single abi3 wheel against the Python 3.10 stable ABI; the resulting
 # wheel is compatible with CPython 3.10, 3.11, 3.12 and 3.13.
-build = ["cp310-*"]
+build = ["cp311-*"]
 
 [tool.distutils.bdist_wheel]
 # Tag the produced wheel as cp310-abi3-... rather than cp310-cp310-...
-py-limited-api = "cp310"
+py-limited-api = "cp311"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
