@@ -10,7 +10,7 @@ name = "std-nslog"
 dynamic = ["version"]
 description = "A shim that redirects stderr/stdout to the Apple unified logging system (os_log)"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = "BSD-3-Clause"
 license-files = ["LICENSE"]
 authors = [
@@ -23,7 +23,6 @@ classifiers = [
     "Operating System :: iOS",
     "Operating System :: MacOS :: MacOS X",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
