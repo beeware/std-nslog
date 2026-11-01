@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "setuptools==84.0.0",
+    "setuptools==84.2.1",
     "setuptools_scm==10.3.4",
 ]
 build-backend = "setuptools.build_meta"
@@ -43,15 +43,15 @@ Source = "https://github.com/beeware/std-nslog"
 # Extras used by developers *of* briefcase are pinned to specific versions to
 # ensure environment consistency.
 pre-commit = [
-    "pre-commit == 4.6.2",
+    "pre-commit == 4.7.0",
 ]
 
 setuptools-scm = [
-    "setuptools_scm == 10.2.1",
+    "setuptools_scm == 10.3.4",
 ]
 
 tox-uv = [
-    "tox-uv == 1.36.0",
+    "tox-uv == 1.37.0",
 ]
 
 dev = [
